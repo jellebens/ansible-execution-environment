@@ -1,0 +1,15 @@
+artifacts/
+context/
+playbooks/
+
+*.retry
+*.log
+.artifacts/
+.ansible/
+.ansible_cache/
+__pycache__/
+.vscode/
+.idea/
+.DS_Store
+*.pem
+*.key

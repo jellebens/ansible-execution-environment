@@ -1,0 +1,41 @@
+version: 3
+
+images:
+  base_image:
+    name: registry.access.redhat.com/ubi10/ubi:10.1
+
+dependencies:
+  python_interpreter:
+    package_system: python3.12
+  
+  ansible_core:
+    package_pip: ansible-core>=2.17
+  
+  ansible_runner:
+    package_pip: ansible-runner
+  
+  system: bindep.txt
+  
+  python: requirements.txt
+
+  galaxy: requirements.yml
+
+  exclude:
+    system:
+    - openshift-clients
+  
+additional_build_steps:
+  append_final:
+    - RUN curl -LO https://dl.k8s.io/release/v1.30.0/bin/linux/amd64/kubectl
+    - RUN install -m 0755 kubectl /usr/local/bin/kubectl
+    - RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    - RUN curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
+    - RUN chmod +x /usr/local/bin/yq
+    - RUN curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/v0.19.2/cilium-linux-amd64.tar.gz{,.sha256sum}
+    - RUN sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
+    - RUN tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
+    - RUN rm cilium-linux-amd64.tar.gz{,.sha256sum}
+
+
+
+
