@@ -33,8 +33,9 @@ additional_build_steps:
     - RUN chmod +x /usr/local/bin/yq
     - RUN curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/v0.19.2/cilium-linux-amd64.tar.gz{,.sha256sum}
     - RUN sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
-    # - RUN tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
-    # - RUN rm cilium-linux-amd64.tar.gz{,.sha256sum}
+    - RUN curl -L https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz | tar xz
+    - RUN mv linux-amd64/helm /usr/local/bin/helm
+    - RUN chmod +x /usr/local/bin/helm
 
 
 
